@@ -1,0 +1,14 @@
+[
+  {
+    "category": "Education",
+    "counts": 2
+  },
+  {
+    "category": "Personal",
+    "counts": 2
+  },
+  {
+    "category": "Work",
+    "counts": 1
+  }
+]

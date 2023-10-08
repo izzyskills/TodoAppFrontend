@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "go to schools",
+    "description": "",
+    "category": "Education",
+    "date": "12/02/2023",
+    "recurrence": "daily",
+    "status": false
+  },
+  {
+    "id": 2,
+    "name": "help mum in school",
+    "description": "",
+    "category": "Work",
+    "date": "12/02/2023",
+    "recurrence": "weekly",
+    "status": false
+  },
+  {
+    "id": 3,
+    "name": "Your Dad",
+    "description": "",
+    "category": "Personal",
+    "date": "12/02/2023",
+    "recurrence": "",
+    "status": false
+  },
+  {
+    "id": 4,
+    "name": "help comp",
+    "description": "",
+    "category": "Personal",
+    "date": "12/02/2023",
+    "recurrence": "monthly",
+    "status": false
+  },
+  {
+    "id": 5,
+    "name": "Jid Jane",
+    "description": "",
+    "category": "Education",
+    "date": "12/02/2023",
+    "recurrence": "daily",
+    "status": false
+  },
+  {
+    "id": 6,
+    "name": "go to schools",
+    "description": "",
+    "category": "Work",
+    "date": "12/02/2023",
+    "recurrence": "daily",
+    "status": false
+  },
+  {
+    "id": 7,
+    "name": "lorem ispum schools",
+    "description": "",
+    "category": "",
+    "date": "12/02/2023",
+    "recurrence": "daily",
+    "status": false
+  },
+  {
+    "id": 8,
+    "name": "lorems i am the choosen one",
+    "description": "",
+    "category": "",
+    "date": "12/02/2023",
+    "recurrence": "daily",
+    "status": false
+  }
+]
