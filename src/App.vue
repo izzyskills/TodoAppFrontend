@@ -11,14 +11,14 @@ import { RouterView } from "vue-router";
 <style scoped>
 .container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 5fr;
   height: 100vh;
 }
 .nav-container {
   grid-column: 1fr;
 }
 .main {
-  grid-column: 2fr;
+  grid-column: 5fr;
   padding: 20px;
 }
 </style>
