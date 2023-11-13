@@ -4,7 +4,6 @@ import { useRouter } from "vue-router";
 import categories from "../data/projects.json";
 const router = useRouter();
 const projects = reactive(categories);
-
 const selectProject = (project) => {
   router.push(`/tasks/category/${project.category}`);
 };
