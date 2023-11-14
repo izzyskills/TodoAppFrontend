@@ -17,7 +17,6 @@ const submitForm = async () => {
     username: username.value,
     password: password.value,
   };
-  console.log(formData);
   await axios
     .post("api/token/login/", formData, {
       headers: {
@@ -36,7 +35,6 @@ const submitForm = async () => {
       const toPath = route.query.to || "/";
 
       router.push(toPath);
-      console.log(token);
     })
     .catch((error) => {
       if (error.response) {
