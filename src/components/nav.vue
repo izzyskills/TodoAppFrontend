@@ -1,45 +1,59 @@
 <script setup>
-import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import categories from "../data/projects.json";
-const router = useRouter();
-const projects = reactive(categories);
-const selectProject = (project) => {
-  router.push(`/tasks/category/${project.category}`);
-};
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const categories = ref(store.state.categories);
+
+onMounted(async () => {
+  if (store.state.isAuthenticated && categories.value.length < 1) {
+    await store.dispatch("fetchCategories");
+    categories.value = store.state.categories;
+  }
+});
 </script>
 <template>
   <nav>
-    <div class="defaults">
-      <router-link to="/tasks/inbox">
-        <div class="default-items">
-          <i></i>
-          <h3>Inbox <span>10</span></h3>
+    <template v-if="store.state.isAuthenticated">
+      <div class="defaults">
+        <router-link to="/tasks/inbox">
+          <div class="default-items">
+            <i></i>
+            <h3>Inbox</h3>
+          </div>
+        </router-link>
+        <router-link to="/tasks/today">
+          <div class="default-items">
+            <i></i>
+            <h3>Today</h3>
+          </div></router-link
+        >
+      </div>
+      <div class="categories">
+        <h2>Projects</h2>
+        <ul>
+          <li v-for="project in categories" :key="project">
+            <router-link :to="`/tasks/category/${project.name}`">
+              <div class="categories-items">
+                <h3>{{ project.name }}<span></span></h3>
+                <i></i>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </template>
+    <template v-else>
+      <div>
+        <div>
+          <router-link to="/login">Login</router-link>
         </div>
-      </router-link>
-      <router-link to="/tasks/today">
-        <div class="default-items">
-          <i></i>
-          <h3>Today <span>10</span></h3>
-        </div></router-link
-      >
-    </div>
-    <div class="projects">
-      {{ console.log(projects) }}
-      <h2>Projects</h2>
-      <ul>
-        <li v-for="project in projects" :key="project.category">
-          <router-link :to="`/tasks/category/${project.category}`">
-            <div class="projects-items">
-              <h3>
-                {{ project.category }}<span>{{ project.counts }}</span>
-              </h3>
-              <i></i>
-            </div>
-          </router-link>
-        </li>
-      </ul>
-    </div>
+        <div>
+          <router-link to="/register">Register</router-link>
+        </div>
+      </div>
+    </template>
   </nav>
 </template>
 

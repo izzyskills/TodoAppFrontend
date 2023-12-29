@@ -6,6 +6,7 @@ import { onBeforeMount } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
 onBeforeMount(() => {
+  store.commit("initializeStore");
   const token = store.state.token;
   if (token) {
     axios.defaults.headers.common["Authorization"] = "Token " + token;
@@ -22,17 +23,3 @@ onBeforeMount(() => {
     </div>
   </div>
 </template>
-<style scoped>
-.container {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  height: 100vh;
-}
-.nav-container {
-  grid-column: 1fr;
-}
-.main {
-  grid-column: 5fr;
-  padding: 20px;
-}
-</style>

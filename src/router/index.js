@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Project from "../views/Project.vue";
 import Inbox from "../views/Inbox.vue";
+import Demo from "../views/demo.vue";
 const routes = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -13,6 +14,7 @@ const routes = createRouter({
     { path: "/tasks/inbox", component: Inbox },
     { path: "/login", component: Login },
     { path: "/register", component: Register },
+    { path: "/demo", component: Demo },
     { path: "/:catchall(.*)*", redirect: "/tasks/today" },
   ],
 });

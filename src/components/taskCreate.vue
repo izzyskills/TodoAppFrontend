@@ -1,5 +1,10 @@
 <script setup>
-// import send from "../components/icons/add.svg";
+import { computed } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const categories = computed(() => store.state.categories);
 </script>
 
 <template>
@@ -13,9 +18,13 @@
         <input type="date" name="" id="Date" placeholder="Due Date" />
         <select id="recurrence" placeholder="Repeat">
           <option value="">None</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
+          <option
+            v-for="category in categories"
+            :key="category.id"
+            :value="category.name"
+          >
+            {{ category.name }}
+          </option>
         </select>
         <select name="" id="Category" placeholder="Category">
           <option value="">None</option>

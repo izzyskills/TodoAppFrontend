@@ -12,9 +12,11 @@ const errors = ref([]);
 const submitForm = async () => {
   axios.defaults.headers.common["Authorization"] = "";
   localStorage.removeItem("token");
+  store.commit("removeToken");
+  store.commit("removeCategories");
 
   const formData = {
-    username: username.value,
+    username: username.value.toLowerCase(),
     password: password.value,
   };
   await axios
@@ -25,11 +27,9 @@ const submitForm = async () => {
     })
     .then((response) => {
       const token = response.data.auth_token;
-
       store.commit("setToken", token);
-
       axios.defaults.headers.common["Authorization"] = "Token " + token;
-
+      console.log(token);
       localStorage.setItem("token", token);
 
       const toPath = route.query.to || "/";
@@ -60,27 +60,3 @@ const submitForm = async () => {
     </form>
   </div>
 </template>
-<style>
-.login {
-  display: flex;
-  margin: 20px;
-  justify-content: center;
-  align-self: center;
-  margin-top: 40px;
-}
-.login-form {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  border: 2px solid #ff7066;
-  border-radius: 20px;
-  padding: 20px;
-}
-.submit {
-  background-color: aquamarine;
-  margin-top: 30px;
-  padding: 10px;
-  border: none;
-  border-radius: 50px;
-}
-</style>
