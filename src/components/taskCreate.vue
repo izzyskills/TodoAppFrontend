@@ -1,36 +1,75 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
+const categories = computed(() => store.getters.categoriesList);
+const form = ref({
+  name: "",
+  description: "",
+  dueDate: "",
+  recurrence: "",
+  category: "",
+}); // Reference the form for resetting
+const resetForm = () => {
+  form.value.name = "";
+  form.value.description = "";
+  form.value.dueDate = "";
+  form.value.recurrence = "";
+  form.value.category = "";
+};
+const submitForm = async () => {
+  try {
+    const formData = form.value;
 
-const categories = computed(() => store.state.categories);
+    await store.dispatch("createTask", formData);
+    resetForm();
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
   <div class="task-create">
-    <form action="" method="post">
-      <input id="taskName" type="text" placeholder="Task name" />
+    <form @submit.prevent="submitForm" method="post">
+      <input
+        id="taskName"
+        type="text"
+        placeholder="Task name"
+        v-model="form.name"
+      />
       <div>
-        <input id="description" type="text" placeholder="Description" />
+        <input
+          id="description"
+          type="text"
+          placeholder="Description"
+          v-model="form.description"
+        />
       </div>
       <div class="info">
-        <input type="date" name="" id="Date" placeholder="Due Date" />
-        <select id="recurrence" placeholder="Repeat">
+        <input
+          type="date"
+          name=""
+          id="Date"
+          placeholder="Due Date"
+          v-model="form.dueDate"
+        />
+        <select id="recurrence" placeholder="Repeat" v-model="form.recurrence">
+          <option value="0">None</option>
+          <option value="1">Daily</option>
+          <option value="2">Weekly</option>
+          <option value="3">Monthly</option>
+        </select>
+        <select id="Category" placeholder="Category" v-model="form.category">
           <option value="">None</option>
           <option
             v-for="category in categories"
             :key="category.id"
-            :value="category.name"
+            :value="category.id"
           >
             {{ category.name }}
           </option>
-        </select>
-        <select name="" id="Category" placeholder="Category">
-          <option value="">None</option>
-          <option value="Education">Education</option>
-          <option value="Education">Personal</option>
-          <option value="Education">Work</option>
         </select>
       </div>
       <div class="submittask">
@@ -70,6 +109,7 @@ const categories = computed(() => store.state.categories);
 }
 input {
   background-color: #181818;
+  color: #757575;
   border: none;
   width: 80%;
   border-radius: 5px;

@@ -1,15 +1,14 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
 
-const categories = ref(store.state.categories);
+const categories = computed(() => store.getters.categoriesList);
 
 onMounted(async () => {
   if (store.state.isAuthenticated && categories.value.length < 1) {
     await store.dispatch("fetchCategories");
-    categories.value = store.state.categories;
   }
 });
 </script>

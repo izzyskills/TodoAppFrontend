@@ -13,8 +13,7 @@ const submitForm = async () => {
   axios.defaults.headers.common["Authorization"] = "";
   localStorage.removeItem("token");
   store.commit("removeToken");
-  store.commit("removeCategories");
-
+  store.commit("initializeStore");
   const formData = {
     username: username.value.toLowerCase(),
     password: password.value,
@@ -29,11 +28,10 @@ const submitForm = async () => {
       const token = response.data.auth_token;
       store.commit("setToken", token);
       axios.defaults.headers.common["Authorization"] = "Token " + token;
-      console.log(token);
       localStorage.setItem("token", token);
-
+      store.dispatch("fetchCategories");
+      store.dispatch("fetchTasks");
       const toPath = route.query.to || "/";
-
       router.push(toPath);
     })
     .catch((error) => {

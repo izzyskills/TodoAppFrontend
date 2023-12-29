@@ -5,6 +5,8 @@ export default createStore({
     isAuthenticated: false,
     token: "",
     categories: [],
+    tasks: [],
+    task_has_been_called: false,
   },
   mutations: {
     initializeStore(state) {
@@ -12,10 +14,14 @@ export default createStore({
         state.token = localStorage.getItem("token");
         state.isAuthenticated = true;
         state.categories = [];
+        state.tasks = [];
+        state.task_has_been_called = false;
       } else {
         state.token = "";
         state.isAuthenticated = false;
         state.categories = [];
+        state.tasks = [];
+        state.task_has_been_called = false;
       }
     },
     setToken(state, token) {
@@ -32,16 +38,50 @@ export default createStore({
     removeCategories(state) {
       state.categories = [];
     },
+    setTasks(state, tasks) {
+      state.tasks = tasks;
+    },
+    removeTasks(state) {
+      state.tasks = [];
+    },
+    setTaskHasBeenCalled(state) {
+      state.task_has_been_called = true;
+    },
+    removeTaskHasBeenCalled(state) {
+      state.task_has_been_called = false;
+    },
   },
   actions: {
-    async fetchCategories({ commit }) {
+    async fetchCategories({ commit, dispatch }) {
       try {
         const response = await axios.get("/category/");
         commit("setCategories", response.data);
+        dispatch("getTasks");
       } catch (error) {
         console.error(error);
       }
     },
+    async getTasks({ commit }) {
+      commit("setTaskHasBeenCalled");
+      return await axios
+        .get("/tasks/")
+        .then((response) => commit("setTasks", response.data))
+        .catch((error) => console.error(error));
+    },
+    async createTask({ dispatch }, taskData) {
+      return await axios
+        .post("/tasks/", taskData)
+        .then((response) => {
+          dispatch("getTasks");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  getters: {
+    categoriesList: (state) => state.categories,
+    taskList: (state) => state.tasks,
   },
   modules: {},
 });

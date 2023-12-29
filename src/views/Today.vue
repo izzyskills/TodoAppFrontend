@@ -1,28 +1,19 @@
 <script setup>
-import task from "../components/task.vue";
+import Task from "../components/task.vue";
+import taskCreate from "../components/taskCreate.vue";
 import { useStore } from "vuex";
-import { ref, onMounted } from "vue";
-import axios from "axios";
-const tasks = ref([]);
+import { ref, computed, onMounted } from "vue";
+const tasks = computed(() => store.getters.taskList);
+const actually_empty = ref(false);
 const formattedDate = new Date().toLocaleDateString(undefined, {
   year: "numeric",
   month: "2-digit",
   day: "2-digit",
 });
 const store = useStore();
-const getTasks = async () => {
-  await axios
-    .get("/tasks/")
-    .then((response) => {
-      tasks.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
 onMounted(() => {
-  if (store.state.isAuthenticated) {
-    getTasks();
+  if (store.state.isAuthenticated && !store.state.task_has_been_called) {
+    store.dispatch("getTasks");
   }
 });
 </script>
@@ -31,6 +22,13 @@ onMounted(() => {
     <h1>
       Today <span>{{ formattedDate }}</span>
     </h1>
-    <task :tasks="tasks" />
+    <Task :tasks="tasks" />
+    <div id="addTask">
+      <img class="add" src="../components/icons/add.svg" alt="" />
+      <p>add task</p>
+    </div>
+    <div>
+      <taskCreate />
+    </div>
   </div>
 </template>
