@@ -30,7 +30,7 @@ const submitForm = async () => {
       axios.defaults.headers.common["Authorization"] = "Token " + token;
       localStorage.setItem("token", token);
       store.dispatch("fetchCategories");
-      store.dispatch("fetchTasks");
+      store.dispatch("getTasks");
       const toPath = route.query.to || "/";
       router.push(toPath);
     })

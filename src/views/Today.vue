@@ -4,7 +4,6 @@ import taskCreate from "../components/taskCreate.vue";
 import { useStore } from "vuex";
 import { ref, computed, onMounted } from "vue";
 const tasks = computed(() => store.getters.taskList);
-const actually_empty = ref(false);
 const formattedDate = new Date().toLocaleDateString(undefined, {
   year: "numeric",
   month: "2-digit",
@@ -16,6 +15,7 @@ onMounted(() => {
     store.dispatch("getTasks");
   }
 });
+console.log(tasks);
 </script>
 <template>
   <div>

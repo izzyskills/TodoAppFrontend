@@ -82,6 +82,12 @@ export default createStore({
   getters: {
     categoriesList: (state) => state.categories,
     taskList: (state) => state.tasks,
+    categoryNamesMap: (state) => {
+      return state.categories.reduce((map, category) => {
+        map[category.id] = category.name;
+        return map;
+      }, {});
+    },
   },
   modules: {},
 });
