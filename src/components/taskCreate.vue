@@ -20,7 +20,13 @@ const resetForm = () => {
 };
 const submitForm = async () => {
   try {
-    const formData = form.value;
+    const formData = {
+      name: form.value.name,
+      description: form.value.description,
+      date: form.value.dueDate || null,
+      recurrence: form.value.recurrence || 0,
+      category: form.value.category || null,
+    };
 
     await store.dispatch("createTask", formData);
     resetForm();

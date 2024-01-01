@@ -14,7 +14,6 @@ const routes = createRouter({
     { path: "/tasks/inbox", component: Inbox },
     { path: "/login", component: Login },
     { path: "/register", component: Register },
-    { path: "/demo", component: Demo },
     { path: "/:catchall(.*)*", redirect: "/tasks/today" },
   ],
 });
