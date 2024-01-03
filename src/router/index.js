@@ -4,18 +4,35 @@ import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Project from "../views/Project.vue";
 import Inbox from "../views/Inbox.vue";
-import Demo from "../views/demo.vue";
+import Logout from "../views/Logout.vue";
+import { useStore } from "vuex";
 const routes = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: "/tasks/today", component: Today },
-    { path: "/", redirect: "/tasks/today" }, // Redirect root to today's tasks
-    { path: "/tasks/category/:categoryName", component: Project },
-    { path: "/tasks/inbox", component: Inbox },
+    { path: "/tasks/today", component: Today, meta: { requiresAuth: true } },
+    {
+      path: "/tasks/category/:categoryName",
+      component: Project,
+      meta: { requiresAuth: true },
+    },
+    { path: "/tasks/inbox", component: Inbox, meta: { requiresAuth: true } },
     { path: "/login", component: Login },
     { path: "/register", component: Register },
-    { path: "/:catchall(.*)*", redirect: "/tasks/today" },
+    { path: "/", redirect: "/register" },
+    { path: "/logout", component: Logout },
+    { path: "/:catchall(.*)*", redirect: "/login" },
   ],
+});
+routes.beforeEach((to, from, next) => {
+  const store = useStore();
+  if (
+    to.matched.some((record) => record.meta.requiresAuth) &&
+    !store.state.isAuthenticated
+  ) {
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default routes;
